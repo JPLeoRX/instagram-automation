@@ -6,8 +6,10 @@ import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.*;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramGetUserFollowersResult;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
+import org.brunocvcunha.instagram4j.requests.payload.InstagramUserSummary;
 
 import java.io.IOException;
+import java.util.List;
 
 public class UserInteractionHelper {
     private static final Logger log = LogManager.getLogger();
@@ -56,7 +58,7 @@ public class UserInteractionHelper {
         debug("unfollow", "Unfollowed successfully");
     }
 
-    public static InstagramGetUserFollowersResult getFollowers(Instagram4j instagram, long userId) {
+    public static List<InstagramUserSummary> getFollowers(Instagram4j instagram, long userId) {
         debug("getFollowers", "Started");
 
         InstagramGetUserFollowersRequest r = new InstagramGetUserFollowersRequest(userId);
@@ -64,7 +66,7 @@ public class UserInteractionHelper {
 
         try {
             debug("getFollowers", "Sending request");
-            return instagram.sendRequest(r);
+            return instagram.sendRequest(r).getUsers();
         }
 
         catch (IOException e) {
@@ -74,7 +76,7 @@ public class UserInteractionHelper {
         }
     }
 
-    public static InstagramGetUserFollowersResult getFollowing(Instagram4j instagram, long userId) {
+    public static List<InstagramUserSummary> getFollowing(Instagram4j instagram, long userId) {
         debug("getFollowing", "Started");
 
         InstagramGetUserFollowingRequest r = new InstagramGetUserFollowingRequest(userId);
@@ -82,7 +84,7 @@ public class UserInteractionHelper {
 
         try {
             debug("getFollowing", "Sending request");
-            return instagram.sendRequest(r);
+            return instagram.sendRequest(r).getUsers();
         }
 
         catch (IOException e) {
