@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.*;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramGetUserFollowersResult;
+import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
 
 import java.io.IOException;
 
@@ -86,6 +87,24 @@ public class UserInteractionHelper {
 
         catch (IOException e) {
             debug("getFollowing", "Exception when sending request");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static InstagramUser findUser(Instagram4j instagram, String username) {
+        debug("findUser", "Started");
+
+        InstagramSearchUsernameRequest r = new InstagramSearchUsernameRequest(username);
+        debug("findUser", "Find User request created");
+
+        try {
+            debug("findUser", "Sending request");
+            return instagram.sendRequest(r).getUser();
+        }
+
+        catch (IOException e) {
+            debug("findUser", "Exception when sending request");
             e.printStackTrace();
             return null;
         }
