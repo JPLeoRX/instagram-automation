@@ -51,6 +51,34 @@ public class UserInteractionHelperTest {
     }
 
     @Test
+    public void findUser_Invalid() {
+        // Invalid - mixed string
+        InstagramUser invalidUser1 = UserInteractionHelper.findUser(instagram, "2276defwssaf2e98fgfss4351");
+        assertEquals(null, invalidUser1);
+
+        // Invalid - digits only
+        InstagramUser invalidUser2 = UserInteractionHelper.findUser(instagram, "12788187847473886278343162641");
+        assertEquals(null, invalidUser2);
+
+        // Invalid - letters only
+        InstagramUser invalidUser3 = UserInteractionHelper.findUser(instagram, "shsdhajpjpiadpjdsjpdajhfishf");
+        assertEquals(null, invalidUser3);
+
+        // Invalid - null
+        InstagramUser invalidUser4 = UserInteractionHelper.findUser(instagram, null);
+        assertEquals(null, invalidUser4);
+
+        // Invalid - empty
+        InstagramUser invalidUser5 = UserInteractionHelper.findUser(instagram, "");
+        assertEquals(null, invalidUser5);
+
+        // Invalid - very long string
+        InstagramUser invalidUser6 = UserInteractionHelper.findUser(instagram, "4364398438032932983jhkfdjhkfsdhgfgsgsfjjkgfsjgfsfsgsjhogiouogiipgwugpiuhjlgdjhlgdadagdgapiguiupgigsigsig437643543795478547842");
+        assertEquals(null, invalidUser6);
+
+    }
+
+    @Test
     public void getFollowers() {
         List<InstagramUserSummary> antonovka98Followers = UserInteractionHelper.getFollowers(instagram, antonovka98.getPk());
         assertEquals(54, antonovka98Followers.size());
@@ -69,6 +97,18 @@ public class UserInteractionHelperTest {
     }
 
     @Test
+    public void getFollowers_Invalid() {
+        List<InstagramUserSummary> invalidFollowers1 = UserInteractionHelper.getFollowers(instagram, 0);
+        assertEquals(null, invalidFollowers1);
+
+        List<InstagramUserSummary> invalidFollowers2 = UserInteractionHelper.getFollowers(instagram, 1111111111);
+        assertEquals(null, invalidFollowers2);
+
+        List<InstagramUserSummary> invalidFollowers3 = UserInteractionHelper.getFollowers(instagram, 999999999);
+        assertEquals(null, invalidFollowers3);
+    }
+
+    @Test
     public void getFollowing() {
         List<InstagramUserSummary> antonovka98Following = UserInteractionHelper.getFollowing(instagram, antonovka98.getPk());
         assertEquals(101, antonovka98Following.size());
@@ -84,5 +124,18 @@ public class UserInteractionHelperTest {
 
         assertEquals(true, hasGreenday);
         assertEquals(true, hasOnerepublic);
+    }
+
+
+    @Test
+    public void getFollowing_Invalid() {
+        List<InstagramUserSummary> invalidFollowers1 = UserInteractionHelper.getFollowing(instagram, 0);
+        assertEquals(null, invalidFollowers1);
+
+        List<InstagramUserSummary> invalidFollowers2 = UserInteractionHelper.getFollowing(instagram, 1111111111);
+        assertEquals(null, invalidFollowers2);
+
+        List<InstagramUserSummary> invalidFollowers3 = UserInteractionHelper.getFollowing(instagram, 999999999);
+        assertEquals(null, invalidFollowers3);
     }
 }

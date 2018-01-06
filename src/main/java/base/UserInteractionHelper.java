@@ -69,7 +69,7 @@ public class UserInteractionHelper {
             return instagram.sendRequest(r).getUsers();
         }
 
-        catch (IOException e) {
+        catch (IOException | NoClassDefFoundError e) {
             debug("getFollowers", "Exception when sending request");
             e.printStackTrace();
             return null;
@@ -87,7 +87,7 @@ public class UserInteractionHelper {
             return instagram.sendRequest(r).getUsers();
         }
 
-        catch (IOException e) {
+        catch (IOException | NoClassDefFoundError e) {
             debug("getFollowing", "Exception when sending request");
             e.printStackTrace();
             return null;
@@ -105,7 +105,7 @@ public class UserInteractionHelper {
             return instagram.sendRequest(r).getUser();
         }
 
-        catch (IOException e) {
+        catch (IOException | NoClassDefFoundError e) {
             debug("findUser", "Exception when sending request");
             e.printStackTrace();
             return null;
