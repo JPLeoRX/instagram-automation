@@ -1,5 +1,6 @@
-package base;
+package core;
 
+import core.instagram_helpers.LoginHelper;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
 public class Current {

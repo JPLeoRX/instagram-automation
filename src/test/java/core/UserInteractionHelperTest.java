@@ -1,5 +1,6 @@
-package base;
+package core;
 
+import core.instagram_helpers.UserInteractionHelper;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUserSummary;
@@ -75,7 +76,6 @@ public class UserInteractionHelperTest {
         // Invalid - very long string
         InstagramUser invalidUser6 = UserInteractionHelper.findUser(instagram, "4364398438032932983jhkfdjhkfsdhgfgsgsfjjkgfsjgfsfsgsjhogiouogiipgwugpiuhjlgdjhlgdadagdgapiguiupgigsigsig437643543795478547842");
         assertEquals(null, invalidUser6);
-
     }
 
     @Test
@@ -125,7 +125,6 @@ public class UserInteractionHelperTest {
         assertEquals(true, hasGreenday);
         assertEquals(true, hasOnerepublic);
     }
-
 
     @Test
     public void getFollowing_Invalid() {

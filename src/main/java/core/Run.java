@@ -1,12 +1,12 @@
-package base;
+package core;
 
+import core.instagram_helpers.LoginHelper;
+import core.instagram_helpers.MediaInteractionHelper;
+import core.instagram_helpers.TagHelper;
+import core.instagram_helpers.UserInteractionHelper;
 import org.brunocvcunha.instagram4j.Instagram4j;
-import org.brunocvcunha.instagram4j.requests.InstagramTagFeedRequest;
-import org.brunocvcunha.instagram4j.requests.payload.InstagramFeedItem;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramFeedResult;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
-
-import java.io.IOException;
 
 public class Run {
     public static void main(String[] args) {
@@ -25,6 +25,5 @@ public class Run {
         System.out.println("Following: " + u.getFollowing_count());
         System.out.println("Bio: " + u.getBiography());
         System.out.println("Posts: " + u.getMedia_count());
-
     }
 }

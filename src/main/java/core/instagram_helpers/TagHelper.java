@@ -1,14 +1,12 @@
-package base;
+package core.instagram_helpers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramTagFeedRequest;
-import org.brunocvcunha.instagram4j.requests.payload.InstagramFeedItem;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramFeedResult;
 
 import java.io.IOException;
-import java.util.List;
 
 public class TagHelper {
     private static final Logger log = LogManager.getLogger();
