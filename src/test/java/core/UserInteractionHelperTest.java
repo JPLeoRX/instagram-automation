@@ -29,14 +29,14 @@ public class UserInteractionHelperTest {
     @Test
     public void findUser() {
         assertEquals(513, jpleorx.getMedia_count());
-        assertEquals(6420, jpleorx.getFollowing_count());
+        assertEquals(6419, jpleorx.getFollowing_count());
         assertEquals("Leo", jpleorx.getFull_name());
         assertEquals("jpleorx", jpleorx.getUsername());
         assertEquals(false, jpleorx.is_private());
 
         assertEquals(18, evis_e.getMedia_count());
-        assertEquals(67, evis_e.getFollowing_count());
-        assertEquals(58, evis_e.getFollower_count());
+        assertEquals(66, evis_e.getFollowing_count());
+        assertEquals(57, evis_e.getFollower_count());
         assertEquals("", evis_e.getFull_name());
         assertEquals("", evis_e.getBiography());
         assertEquals("evis_e", evis_e.getUsername());
@@ -81,19 +81,10 @@ public class UserInteractionHelperTest {
     @Test
     public void getFollowers() {
         List<InstagramUserSummary> antonovka98Followers = UserInteractionHelper.getFollowers(instagram, antonovka98.getPk());
-        assertEquals(54, antonovka98Followers.size());
+        assertEquals(antonovka98.getFollower_count(), antonovka98Followers.size());
 
-        boolean hasJpleorx = false;
-        boolean hasGamemem = false;
-        for (InstagramUserSummary userSummary : antonovka98Followers) {
-            if (userSummary.getUsername().equalsIgnoreCase("jpleorx"))
-                hasJpleorx = true;
-            else if (userSummary.getUsername().equalsIgnoreCase("game.mem"))
-                hasGamemem = true;
-        }
-
-        assertEquals(true, hasJpleorx);
-        assertEquals(true, hasGamemem);
+        List<InstagramUserSummary> jpleorxFollowers = UserInteractionHelper.getFollowers(instagram, jpleorx.getPk());
+        assertEquals(16184, jpleorxFollowers.size());
     }
 
     @Test
@@ -113,17 +104,8 @@ public class UserInteractionHelperTest {
         List<InstagramUserSummary> antonovka98Following = UserInteractionHelper.getFollowing(instagram, antonovka98.getPk());
         assertEquals(101, antonovka98Following.size());
 
-        boolean hasGreenday = false;
-        boolean hasOnerepublic = false;
-        for (InstagramUserSummary userSummary : antonovka98Following) {
-            if (userSummary.getUsername().equalsIgnoreCase("greenday"))
-                hasGreenday = true;
-            else if (userSummary.getUsername().equalsIgnoreCase("onerepublic"))
-                hasOnerepublic = true;
-        }
-
-        assertEquals(true, hasGreenday);
-        assertEquals(true, hasOnerepublic);
+        List<InstagramUserSummary> jpleorxFollowing = UserInteractionHelper.getFollowing(instagram, jpleorx.getPk());
+        assertEquals(6417, jpleorxFollowing.size());
     }
 
     @Test
@@ -136,5 +118,36 @@ public class UserInteractionHelperTest {
 
         List<InstagramUserSummary> invalidFollowers3 = UserInteractionHelper.getFollowing(instagram, 999999999);
         assertEquals(null, invalidFollowers3);
+    }
+
+    @Test
+    public void follow() {
+        UserInteractionHelper.follow(instagram, jpleorx.getPk());
+    }
+
+    @Test
+    public void unfollow() {
+        UserInteractionHelper.unfollow(instagram, jpleorx.getPk());
+    }
+
+    @Test
+    public void isFollowing() {
+        // leo follows evis
+        assertEquals(true, UserInteractionHelper.isFollowing(instagram, jpleorx.getPk(), evis_e.getPk()));
+
+        // leo follows lida
+        assertEquals(true, UserInteractionHelper.isFollowing(instagram, jpleorx.getPk(), antonovka98.getPk()));
+
+        // lida follows leo
+        assertEquals(true, UserInteractionHelper.isFollowing(instagram, antonovka98.getPk(), jpleorx.getPk()));
+    }
+
+    @Test
+    public void hasInFollowers() {
+        // leo has lida in followers
+        assertEquals(true, UserInteractionHelper.hasInFollowers(instagram, jpleorx.getPk(), antonovka98.getPk()));
+
+        // lida has leo in followers
+        assertEquals(true, UserInteractionHelper.hasInFollowers(instagram, antonovka98.getPk(), jpleorx.getPk()));
     }
 }
