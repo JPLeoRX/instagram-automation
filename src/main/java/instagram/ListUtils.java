@@ -38,4 +38,11 @@ public class ListUtils {
         list.add(object);
         return list;
     }
+
+    public static boolean hasUntouched(List<Media> media, User user) {
+        for (Media pic : media)
+            if (!pic.hasInLikers(user) && !pic.getAuthor().hasInFollowers(user))
+                return true;
+        return false;
+    }
 }
