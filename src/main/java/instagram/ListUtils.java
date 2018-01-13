@@ -1,5 +1,6 @@
 package instagram;
 
+import instagram.core_objects.HashTag;
 import instagram.core_objects.Media;
 import instagram.core_objects.SingleHashTag;
 import instagram.core_objects.User;
@@ -44,5 +45,12 @@ public class ListUtils {
             if (!pic.hasInLikers(user) && !pic.getAuthor().hasInFollowers(user))
                 return true;
         return false;
+    }
+
+    public static List<HashTag> toListOfHashTags(Instagram4j instagram4j, String[] hashTagsArray) {
+        ArrayList<HashTag> tagsList = new ArrayList<>();
+        for (String hashTag : hashTagsArray)
+            tagsList.add(new HashTag(instagram4j, hashTag));
+        return tagsList;
     }
 }

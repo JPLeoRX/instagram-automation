@@ -1,17 +1,17 @@
 package automation;
 
+import automation.media_selection.LastMediaStrategy;
+import automation.media_selection.MediaSelectionStrategy;
+import automation.tag_selection.RandomTagStrategy;
+import automation.tag_selection.TagSelectionStrategy;
 import instagram.ListUtils;
-import instagram.RandomCollection;
 import instagram.core_objects.HashTag;
 import instagram.core_objects.Login;
 import instagram.core_objects.Media;
 import instagram.core_objects.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
 import java.util.ArrayDeque;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,32 +21,33 @@ public class Robot {
     private Instagram4j instagram4j;
     private User currentUser;
     private TagSelectionStrategy tagStrategy;
+    private MediaSelectionStrategy mediaStrategy;
 
     private Queue<User> followedUser = new ArrayDeque<>();
 
     public Robot(Instagram4j instagram4j, String ... hashTags) {
         this.instagram4j = instagram4j;
         this.currentUser = new User(instagram4j, instagram4j.getUsername());
-        this.tagStrategy = new SimpleTagSelection(instagram4j, hashTags);
+
+        this.tagStrategy = new RandomTagStrategy(instagram4j, hashTags);
+        this.mediaStrategy = new LastMediaStrategy(instagram4j);
     }
 
     public void iteration() {
         // Select random tag
-        HashTag tag = tagStrategy.randomTag();
+        HashTag tag = tagStrategy.select();
 
         // If we already interacted with all media for given hashtag - select another one
         while (!ListUtils.hasUntouched(tag.getMedia(), currentUser))
-            tag = tagStrategy.randomTag();
-
-        // Create a randomized collection of media
-        RandomCollection<Media> randomTagFeed = new RandomCollection<>(tag.getMedia());
+            tag = tagStrategy.select();
 
         // Select random pic
-        Media pic = randomTagFeed.getRandom();
+        mediaStrategy.setOriginalList(tag.getMedia());
+        Media pic = mediaStrategy.select();
 
         // If we already interacted with this picture - select another one
         while (pic.hasInLikers(currentUser) || pic.getAuthor().hasInFollowers(currentUser))
-            pic = randomTagFeed.getRandom();
+            pic = mediaStrategy.select();
 
         // Like the picture
         pic.like();

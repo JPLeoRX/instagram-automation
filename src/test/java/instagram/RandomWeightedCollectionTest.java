@@ -9,9 +9,9 @@ public class RandomWeightedCollectionTest {
     @Test
     public void nextRandom() {
         RandomWeightedCollection<String> a = new RandomWeightedCollection<>();
-        a.add(6, "cat");
-        a.add(3, "mouse");
-        a.add(1, "dog");
+        a.addWeighted(6, "cat");
+        a.addWeighted(3, "mouse");
+        a.addWeighted(1, "dog");
 
 
         int countCat = 0;

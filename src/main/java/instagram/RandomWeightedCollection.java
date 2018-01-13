@@ -1,20 +1,39 @@
 package instagram;
 
-import java.security.SecureRandom;
 import java.util.TreeMap;
 
-public class RandomWeightedCollection<AnyObject> {
-    private TreeMap<Integer, AnyObject> map = new TreeMap<Integer, AnyObject>();
-    private SecureRandom random = new SecureRandom();
+public class RandomWeightedCollection<AnyObject> extends RandomCollection<AnyObject> {
+    // Weighted randomization map
+    private TreeMap<Integer, AnyObject> map = new TreeMap<>();
+
+    // Keep track of combined weight
     private int totalWeight = 0;
 
-    public void add(int weight, AnyObject object) {
+
+
+    // Constructors
+    //------------------------------------------------------------------------------------------------------------------
+    public RandomWeightedCollection() {
+
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+    public void addWeighted(int weight, AnyObject object) {
         totalWeight += weight;
         map.put(totalWeight, object);
     }
 
-    public AnyObject next() {
+    @Override
+    public AnyObject getRandom() {
         int value = random.nextInt(totalWeight) + 1;
         return map.ceilingEntry(value).getValue();
+    }
+
+    @Override
+    @Deprecated
+    public AnyObject getRandom(int bound) {
+        return getRandom();
     }
 }
