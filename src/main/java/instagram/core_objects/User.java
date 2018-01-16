@@ -1,6 +1,6 @@
 package instagram.core_objects;
 
-import instagram.ListUtils;
+import helpers.ListUtils;
 import instagram.request_handling.user_interactions.UserFeed;
 import instagram.request_handling.message_interactions.ShareMedia;
 import instagram.request_handling.message_interactions.ShareMessage;

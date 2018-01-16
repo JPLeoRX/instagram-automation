@@ -1,5 +1,6 @@
-package automation.media_selection;
+package automation.selection.media_selection;
 
+import automation.selection.MediaSelectionStrategy;
 import instagram.core_objects.Media;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
@@ -11,7 +12,7 @@ public class LastMediaStrategy extends MediaSelectionStrategy {
     }
 
     @Override
-    public void setOriginalList(List<Media> originalList) {
+    public void setOriginals(List<Media> originalList) {
         this.originalList = originalList;
     }
 

@@ -1,4 +1,4 @@
-package instagram;
+package helpers;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;

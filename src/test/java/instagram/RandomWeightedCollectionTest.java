@@ -1,5 +1,6 @@
 package instagram;
 
+import helpers.RandomWeightedCollection;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -18,7 +19,7 @@ public class RandomWeightedCollectionTest {
         int countMouse = 0;
         int countDog = 0;
         for (int i = 0; i < 1000; i++) {
-            String c = a.next();
+            String c = a.getRandom();
             if (c.equalsIgnoreCase("cat"))
                 countCat++;
             else if (c.equalsIgnoreCase("mouse"))

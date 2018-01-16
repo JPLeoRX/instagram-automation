@@ -1,7 +1,7 @@
 package automation;
 
-import automation.tag_selection.RandomTagStrategy;
-import automation.tag_selection.TagSelectionStrategy;
+import automation.selection.tag_selection.RandomTagStrategy;
+import automation.selection.TagSelectionStrategy;
 import instagram.BaseTest;
 import org.junit.Test;
 

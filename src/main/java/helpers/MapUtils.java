@@ -1,4 +1,4 @@
-package instagram;
+package helpers;
 
 import instagram.core_objects.SingleHashTag;
 

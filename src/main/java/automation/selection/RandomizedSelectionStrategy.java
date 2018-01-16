@@ -1,7 +1,6 @@
-package automation;
+package automation.selection;
 
-import instagram.RandomCollection;
-import instagram.core_objects.HashTag;
+import helpers.RandomCollection;
 
 import java.util.List;
 
@@ -18,5 +17,5 @@ public abstract class RandomizedSelectionStrategy<SelectedType> implements Selec
     }
 
 
-    public abstract void setOriginalList(List<SelectedType> originalList);
+    public abstract void setOriginals(List<SelectedType> originalList);
 }

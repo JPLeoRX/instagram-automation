@@ -1,13 +1,10 @@
-package automation.tag_selection;
+package automation.selection;
 
-import automation.RandomizedSelectionStrategy;
-import automation.SelectionStrategy;
-import instagram.ListUtils;
-import instagram.RandomCollection;
+import automation.selection.RandomizedSelectionStrategy;
+import helpers.ListUtils;
 import instagram.core_objects.HashTag;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TagSelectionStrategy extends RandomizedSelectionStrategy<HashTag> {
@@ -15,10 +12,16 @@ public abstract class TagSelectionStrategy extends RandomizedSelectionStrategy<H
 
     public TagSelectionStrategy(Instagram4j instagram4j, List<HashTag> hashTags) {
         this.instagram4j = instagram4j;
-        this.setOriginalList(hashTags);
+        this.setOriginals(hashTags);
     }
 
     public TagSelectionStrategy(Instagram4j instagram4j, String ... hashTags) {
         this(instagram4j, ListUtils.toListOfHashTags(instagram4j, hashTags));
+    }
+
+    @Override
+    public HashTag select(List<HashTag> originalList) {
+        this.setOriginals(originalList);
+        return this.select();
     }
 }

@@ -1,8 +1,6 @@
-package automation.media_selection;
+package automation.selection;
 
-import automation.RandomizedSelectionStrategy;
-import automation.SelectionStrategy;
-import instagram.RandomCollection;
+import automation.selection.RandomizedSelectionStrategy;
 import instagram.core_objects.Media;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
@@ -13,5 +11,11 @@ public abstract class MediaSelectionStrategy extends RandomizedSelectionStrategy
 
     public MediaSelectionStrategy(Instagram4j instagram4j) {
         this.instagram4j = instagram4j;
+    }
+
+    @Override
+    public Media select(List<Media> originalList) {
+        this.setOriginals(originalList);
+        return this.select();
     }
 }

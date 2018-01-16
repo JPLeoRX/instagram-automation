@@ -1,6 +1,7 @@
-package automation.tag_selection;
+package automation.selection.tag_selection;
 
-import instagram.RandomCollection;
+import automation.selection.TagSelectionStrategy;
+import helpers.RandomCollection;
 import instagram.core_objects.HashTag;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
@@ -12,13 +13,13 @@ public class RandomTagStrategy extends TagSelectionStrategy {
     }
 
     @Override
-    public void setOriginalList(List<HashTag> originalList) {
+    public void setOriginals(List<HashTag> originalList) {
         this.originalList = originalList;
         this.randomCollection = new RandomCollection<>(originalList);
     }
 
     @Override
     public HashTag select() {
-        return getRandomCollection().getRandom();
+        return getRandomCollection().getRandom().clone();
     }
 }

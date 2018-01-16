@@ -1,49 +1,51 @@
 package automation;
 
-import automation.media_selection.LastMediaStrategy;
-import automation.media_selection.MediaSelectionStrategy;
-import automation.tag_selection.RandomTagStrategy;
-import automation.tag_selection.TagSelectionStrategy;
-import instagram.ListUtils;
-import instagram.core_objects.HashTag;
-import instagram.core_objects.Login;
-import instagram.core_objects.Media;
-import instagram.core_objects.User;
+import automation.bot.Bot;
+import automation.bot.BotRunnable;
+import automation.selection.media_selection.LastMediaStrategy;
+import automation.selection.MediaSelectionStrategy;
+import automation.selection.tag_selection.RandomTagStrategy;
+import automation.selection.TagSelectionStrategy;
+import helpers.ListUtils;
+import instagram.core_objects.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.brunocvcunha.instagram4j.Instagram4j;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.time.LocalDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Robot {
+public class Robot implements Bot {
+    private static final Logger log = LogManager.getLogger();
+
     private Instagram4j instagram4j;
-    private User currentUser;
+    private CurrentUser currentUser;
     private TagSelectionStrategy tagStrategy;
     private MediaSelectionStrategy mediaStrategy;
 
-    private Queue<User> followedUser = new ArrayDeque<>();
-
     public Robot(Instagram4j instagram4j, String ... hashTags) {
         this.instagram4j = instagram4j;
-        this.currentUser = new User(instagram4j, instagram4j.getUsername());
+        this.currentUser = new CurrentUser(instagram4j, instagram4j.getUsername());
 
         this.tagStrategy = new RandomTagStrategy(instagram4j, hashTags);
         this.mediaStrategy = new LastMediaStrategy(instagram4j);
     }
 
+    @Override
     public void iteration() {
         // Select random tag
         HashTag tag = tagStrategy.select();
+        log.debug("Hashtag Selected: " + tag);
 
         // If we already interacted with all media for given hashtag - select another one
         while (!ListUtils.hasUntouched(tag.getMedia(), currentUser))
             tag = tagStrategy.select();
 
         // Select random pic
-        mediaStrategy.setOriginalList(tag.getMedia());
-        Media pic = mediaStrategy.select();
+        Media pic = mediaStrategy.select(tag.getMedia());
+        log.debug("Media Selected: " + pic);
 
         // If we already interacted with this picture - select another one
         while (pic.hasInLikers(currentUser) || pic.getAuthor().hasInFollowers(currentUser))
@@ -51,58 +53,26 @@ public class Robot {
 
         // Like the picture
         pic.like();
+        log.debug("Media Liked!");
 
         // Follow the author
         pic.getAuthor().follow();
-        followedUser.add(pic.getAuthor());
+        currentUser.newUserFollowedByRobot(new UserForUnfollow(pic.getAuthor(), LocalDateTime.now()));
+        log.debug("Author Followed: " + pic.getAuthor());
     }
 
-    public void unfollowService() {
-        User unfollowedUser = followedUser.poll();
-        if (unfollowedUser != null)
-            unfollowedUser.unfollow();
-    }
-
-    public void run() {
+    @Override
+    public void start() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleWithFixedDelay(new RobotRunnable(), 0, 1, TimeUnit.MINUTES);
-        service.scheduleWithFixedDelay(new UnfollowRunnable(), 10, 1, TimeUnit.MINUTES);
-    }
-
-    private class RobotRunnable implements Runnable {
-        @Override
-        public void run() {
-            try {
-                iteration();
-            }
-
-            catch (Exception e) {
-                e.printStackTrace();
-                run();
-            }
-        }
-    }
-
-    private class UnfollowRunnable implements Runnable {
-        @Override
-        public void run() {
-            try {
-                unfollowService();
-            }
-
-            catch (Exception e) {
-                e.printStackTrace();
-                run();
-            }
-        }
+        service.scheduleWithFixedDelay(new BotRunnable(this), 0, 2, TimeUnit.MINUTES);
     }
 
     public static void main(String[] args) {
         Login login = new Login("jpleorx1234", "admin1234");
         Instagram4j instagram4j = login.send();
 
-        // 13-0, 17:47
-        Robot robot = new Robot(instagram4j, "jdm", "honda", "acura", "mazda", "toyota");
-        robot.run();
+        // 16-5, 12:58
+        Robot robot = new Robot(instagram4j, "jdm");
+        robot.start();
     }
 }

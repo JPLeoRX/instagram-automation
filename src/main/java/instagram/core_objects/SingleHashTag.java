@@ -1,6 +1,6 @@
 package instagram.core_objects;
 
-import instagram.ListUtils;
+import helpers.ListUtils;
 import instagram.request_handling.tags_interactions.TagFeed;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchTagsResultTag;

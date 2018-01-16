@@ -1,6 +1,6 @@
 package instagram.core_objects;
 
-import instagram.MapUtils;
+import helpers.MapUtils;
 import instagram.request_handling.tags_interactions.GetTags;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchTagsResult;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class HashTag extends ObjectInstagram {
+public class HashTag extends ObjectInstagram implements Cloneable {
     // Must be initialized with
     private String hashTag;
 
@@ -78,5 +78,10 @@ public class HashTag extends ObjectInstagram {
     @Override
     public String toString() {
         return "HashTag: tag=" + hashTag + ", mediaCount=" + getMediaCount() + ", similarTags=" + getSimilarHashTags();
+    }
+
+    @Override
+    public HashTag clone() {
+        return new HashTag(instagram4j, hashTag);
     }
 }

@@ -1,4 +1,4 @@
-package instagram;
+package helpers;
 
 public interface RandomInterface<E> {
     E getRandom();

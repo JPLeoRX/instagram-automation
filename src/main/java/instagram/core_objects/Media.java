@@ -1,6 +1,6 @@
 package instagram.core_objects;
 
-import instagram.ListUtils;
+import helpers.ListUtils;
 import instagram.request_handling.media_interactions.*;
 import instagram.request_handling.media_interactions.PostComment;
 import instagram.request_handling.message_interactions.ShareMedia;
@@ -9,7 +9,6 @@ import org.brunocvcunha.instagram4j.requests.payload.InstagramComment;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramFeedItem;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Media extends ObjectInstagram {
